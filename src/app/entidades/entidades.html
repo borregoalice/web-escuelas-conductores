@@ -1,4 +1,44 @@
-<section>
-  <h2>Entidades</h2>
-  <p>Listado base de entidades habilitadas.</p>
+<section class="entidades">
+  <header class="entidades__header">
+    <h2>Entidades</h2>
+  </header>
+
+  @if (cargando()) {
+    <p class="entidades__status">Cargando entidades...</p>
+  }
+
+  @if (error()) {
+    <p class="entidades__error">{{ error() }}</p>
+  }
+
+  @if (!cargando() && !error()) {
+    @if (entidades().length > 0) {
+      <div class="entidades__table-wrapper">
+        <table class="entidades__table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Razón social</th>
+              <th>Tipo</th>
+              <th>Estado</th>
+              <th>Ubigeo</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (entidad of entidades(); track entidad.id) {
+              <tr>
+                <td>{{ entidad.id ?? '-' }}</td>
+                <td>{{ entidad.razonSocial ?? '-' }}</td>
+                <td>{{ entidad.tipo ?? '-' }}</td>
+                <td>{{ entidad.estado ?? '-' }}</td>
+                <td>{{ entidad.ubigeo ?? entidad.codigoUbigeo ?? '-' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else {
+      <p class="entidades__status">No hay entidades para mostrar.</p>
+    }
+  }
 </section>

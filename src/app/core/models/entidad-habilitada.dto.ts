@@ -3,7 +3,9 @@ export interface EntidadHabilitadaDto {
   ruc?: string;
   razonSocial?: string;
   nombreComercial?: string;
+  tipo?: string;
   direccion?: string;
+  ubigeo?: string;
   codigoUbigeo?: string;
   estado?: string;
   fechaHabilitacion?: string;
