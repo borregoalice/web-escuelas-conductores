@@ -1,6 +1,8 @@
 export interface EstadisticasDto {
-  totalEntidades?: number;
-  totalHabilitadas?: number;
-  totalInhabilitadas?: number;
-  totalUbigeos?: number;
+  totalEntidades: number;
+  escuelas: number;
+  centrosMedicos: number;
+  centrosEvaluacion: number;
+  activas: number;
+  inactivas: number;
 }

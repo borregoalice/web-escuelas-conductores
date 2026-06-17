@@ -1,4 +1,47 @@
-<section>
-  <h2>Dashboard</h2>
-  <p>Vista inicial del sistema.</p>
+<section class="dashboard">
+  <header class="dashboard__header">
+    <h2>Dashboard</h2>
+  </header>
+
+  @if (cargando()) {
+    <p class="dashboard__status">Cargando estadísticas...</p>
+  }
+
+  @if (error()) {
+    <p class="dashboard__error">{{ error() }}</p>
+  }
+
+  @if (estadisticas(); as datos) {
+    <div class="dashboard__grid">
+      <article class="dashboard-card">
+        <span class="dashboard-card__label">Total entidades</span>
+        <strong class="dashboard-card__value">{{ datos.totalEntidades }}</strong>
+      </article>
+
+      <article class="dashboard-card">
+        <span class="dashboard-card__label">Escuelas</span>
+        <strong class="dashboard-card__value">{{ datos.escuelas }}</strong>
+      </article>
+
+      <article class="dashboard-card">
+        <span class="dashboard-card__label">Centros médicos</span>
+        <strong class="dashboard-card__value">{{ datos.centrosMedicos }}</strong>
+      </article>
+
+      <article class="dashboard-card">
+        <span class="dashboard-card__label">Centros de evaluación</span>
+        <strong class="dashboard-card__value">{{ datos.centrosEvaluacion }}</strong>
+      </article>
+
+      <article class="dashboard-card">
+        <span class="dashboard-card__label">Activas</span>
+        <strong class="dashboard-card__value">{{ datos.activas }}</strong>
+      </article>
+
+      <article class="dashboard-card">
+        <span class="dashboard-card__label">Inactivas</span>
+        <strong class="dashboard-card__value">{{ datos.inactivas }}</strong>
+      </article>
+    </div>
+  }
 </section>
