@@ -1,81 +1,81 @@
 <section class="entidad-form">
-  <header class="entidad-form__header">
-    <h2>{{ modoEdicion() ? 'Editar entidad' : 'Nueva entidad' }}</h2>
+  <header class="mb-4">
+    <h2 class="h3 mb-0">{{ modoEdicion() ? 'Editar entidad' : 'Nueva entidad' }}</h2>
   </header>
 
   @if (error()) {
-    <p class="entidad-form__error">{{ error() }}</p>
+    <div class="alert alert-danger">{{ error() }}</div>
   }
 
-  <form class="entidad-form__form" [formGroup]="formulario" (ngSubmit)="guardar()">
-    <div class="entidad-form__campo">
-      <label for="ruc">RUC</label>
-      <input id="ruc" type="text" formControlName="ruc" />
+  <form class="row g-3" [formGroup]="formulario" (ngSubmit)="guardar()">
+    <div class="col-12 col-md-6">
+      <label class="form-label" for="ruc">RUC</label>
+      <input id="ruc" class="form-control" type="text" formControlName="ruc" />
       @if (formulario.controls.ruc.touched && formulario.controls.ruc.hasError('required')) {
-        <small>El RUC es obligatorio.</small>
+        <div class="text-danger small mt-1">El RUC es obligatorio.</div>
       }
       @if (formulario.controls.ruc.touched && formulario.controls.ruc.hasError('rucInvalido')) {
-        <small>El RUC debe tener exactamente 11 dígitos.</small>
+        <div class="text-danger small mt-1">El RUC debe tener exactamente 11 dígitos.</div>
       }
     </div>
 
-    <div class="entidad-form__campo">
-      <label for="razonSocial">Razón social</label>
-      <input id="razonSocial" type="text" formControlName="razonSocial" />
+    <div class="col-12 col-md-6">
+      <label class="form-label" for="razonSocial">Razón social</label>
+      <input id="razonSocial" class="form-control" type="text" formControlName="razonSocial" />
       @if (formulario.controls.razonSocial.touched && formulario.controls.razonSocial.invalid) {
-        <small>La razón social es obligatoria y debe tener entre 3 y 120 caracteres.</small>
+        <div class="text-danger small mt-1">La razón social es obligatoria y debe tener entre 3 y 120 caracteres.</div>
       }
     </div>
 
-    <div class="entidad-form__campo">
-      <label for="tipo">Tipo</label>
-      <select id="tipo" formControlName="tipo">
+    <div class="col-12 col-md-6">
+      <label class="form-label" for="tipo">Tipo</label>
+      <select id="tipo" class="form-select" formControlName="tipo">
         <option value="">Seleccione</option>
         <option value="E">Escuela</option>
         <option value="M">Centro médico</option>
         <option value="V">Centro de evaluación</option>
       </select>
       @if (formulario.controls.tipo.touched && formulario.controls.tipo.invalid) {
-        <small>El tipo es obligatorio.</small>
+        <div class="text-danger small mt-1">El tipo es obligatorio.</div>
       }
     </div>
 
-    <div class="entidad-form__campo">
-      <label for="estado">Estado</label>
-      <select id="estado" formControlName="estado">
+    <div class="col-12 col-md-6">
+      <label class="form-label" for="estado">Estado</label>
+      <select id="estado" class="form-select" formControlName="estado">
         <option value="">Seleccione</option>
         <option value="A">Activa</option>
         <option value="I">Inactiva</option>
       </select>
       @if (formulario.controls.estado.touched && formulario.controls.estado.invalid) {
-        <small>El estado es obligatorio.</small>
+        <div class="text-danger small mt-1">El estado es obligatorio.</div>
       }
     </div>
 
-    <div class="entidad-form__campo">
-      <label for="direccion">Dirección</label>
-      <input id="direccion" type="text" formControlName="direccion" />
+    <div class="col-12 col-md-6">
+      <label class="form-label" for="direccion">Dirección</label>
+      <input id="direccion" class="form-control" type="text" formControlName="direccion" />
       @if (formulario.controls.direccion.touched && formulario.controls.direccion.invalid) {
-        <small>La dirección es obligatoria.</small>
+        <div class="text-danger small mt-1">La dirección es obligatoria.</div>
       }
     </div>
 
-    <div class="entidad-form__campo">
-      <label for="telefono">Teléfono</label>
-      <input id="telefono" type="text" formControlName="telefono" />
+    <div class="col-12 col-md-6">
+      <label class="form-label" for="telefono">Teléfono</label>
+      <input id="telefono" class="form-control" type="text" formControlName="telefono" />
     </div>
 
-    <div class="entidad-form__campo">
-      <label for="correo">Correo</label>
-      <input id="correo" type="email" formControlName="correo" />
+    <div class="col-12 col-md-6">
+      <label class="form-label" for="correo">Correo</label>
+      <input id="correo" class="form-control" type="email" formControlName="correo" />
       @if (formulario.controls.correo.touched && formulario.controls.correo.invalid) {
-        <small>Ingrese un correo válido.</small>
+        <div class="text-danger small mt-1">Ingrese un correo válido.</div>
       }
     </div>
 
-    <div class="entidad-form__campo">
-      <label for="codigoUbigeo">Código ubigeo</label>
-      <select id="codigoUbigeo" formControlName="codigoUbigeo">
+    <div class="col-12 col-md-6">
+      <label class="form-label" for="codigoUbigeo">Código ubigeo</label>
+      <select id="codigoUbigeo" class="form-select" formControlName="codigoUbigeo">
         <option value="">Seleccione</option>
         @for (ubigeo of ubigeos(); track ubigeo.codigoUbigeo) {
           <option [value]="ubigeo.codigoUbigeo">
@@ -85,23 +85,21 @@
         }
       </select>
       @if (formulario.controls.codigoUbigeo.touched && formulario.controls.codigoUbigeo.invalid) {
-        <small>El código ubigeo es obligatorio.</small>
+        <div class="text-danger small mt-1">El código ubigeo es obligatorio.</div>
       }
     </div>
 
-    <div class="entidad-form__campo">
-      <label for="fechaAutorizacion">Fecha de autorización</label>
-      <input id="fechaAutorizacion" type="date" formControlName="fechaAutorizacion" />
+    <div class="col-12 col-md-6">
+      <label class="form-label" for="fechaAutorizacion">Fecha de autorización</label>
+      <input id="fechaAutorizacion" class="form-control" type="date" formControlName="fechaAutorizacion" />
       @if (formulario.controls.fechaAutorizacion.touched && formulario.controls.fechaAutorizacion.invalid) {
-        <small>La fecha de autorización es obligatoria.</small>
+        <div class="text-danger small mt-1">La fecha de autorización es obligatoria.</div>
       }
     </div>
 
-    <div class="entidad-form__acciones">
-      <button class="entidad-form__button" type="submit">Guardar</button>
-      <button class="entidad-form__button entidad-form__button--secondary" type="button" (click)="cancelar()">
-        Cancelar
-      </button>
+    <div class="col-12 d-flex gap-2 mt-4">
+      <button class="btn btn-primary" type="submit">Guardar</button>
+      <button class="btn btn-outline-secondary" type="button" (click)="cancelar()">Cancelar</button>
     </div>
   </form>
 </section>

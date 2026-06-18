@@ -1,47 +1,71 @@
 <section class="dashboard">
-  <header class="dashboard__header">
-    <h2>Dashboard</h2>
+  <header class="dashboard__header mb-4">
+    <h2 class="h3 mb-0">Dashboard</h2>
   </header>
 
   @if (cargando()) {
-    <p class="dashboard__status">Cargando estadísticas...</p>
+    <div class="alert alert-info">Cargando estadísticas...</div>
   }
 
   @if (error()) {
-    <p class="dashboard__error">{{ error() }}</p>
+    <div class="alert alert-danger">{{ error() }}</div>
   }
 
   @if (estadisticas(); as datos) {
-    <div class="dashboard__grid">
-      <article class="dashboard-card">
-        <span class="dashboard-card__label">Total entidades</span>
-        <strong class="dashboard-card__value">{{ datos.totalEntidades }}</strong>
-      </article>
+    <div class="row g-3">
+      <div class="col-12 col-md-6 col-lg-4">
+        <article class="card h-100">
+          <div class="card-body">
+            <span class="text-muted">Total entidades</span>
+            <strong class="d-block fs-2">{{ datos.totalEntidades }}</strong>
+          </div>
+        </article>
+      </div>
 
-      <article class="dashboard-card">
-        <span class="dashboard-card__label">Escuelas</span>
-        <strong class="dashboard-card__value">{{ datos.escuelas }}</strong>
-      </article>
+      <div class="col-12 col-md-6 col-lg-4">
+        <article class="card h-100">
+          <div class="card-body">
+            <span class="text-muted">Escuelas</span>
+            <strong class="d-block fs-2">{{ datos.escuelas }}</strong>
+          </div>
+        </article>
+      </div>
 
-      <article class="dashboard-card">
-        <span class="dashboard-card__label">Centros médicos</span>
-        <strong class="dashboard-card__value">{{ datos.centrosMedicos }}</strong>
-      </article>
+      <div class="col-12 col-md-6 col-lg-4">
+        <article class="card h-100">
+          <div class="card-body">
+            <span class="text-muted">Centros médicos</span>
+            <strong class="d-block fs-2">{{ datos.centrosMedicos }}</strong>
+          </div>
+        </article>
+      </div>
 
-      <article class="dashboard-card">
-        <span class="dashboard-card__label">Centros de evaluación</span>
-        <strong class="dashboard-card__value">{{ datos.centrosEvaluacion }}</strong>
-      </article>
+      <div class="col-12 col-md-6 col-lg-4">
+        <article class="card h-100">
+          <div class="card-body">
+            <span class="text-muted">Centros de evaluación</span>
+            <strong class="d-block fs-2">{{ datos.centrosEvaluacion }}</strong>
+          </div>
+        </article>
+      </div>
 
-      <article class="dashboard-card">
-        <span class="dashboard-card__label">Activas</span>
-        <strong class="dashboard-card__value">{{ datos.activas }}</strong>
-      </article>
+      <div class="col-12 col-md-6 col-lg-4">
+        <article class="card h-100">
+          <div class="card-body">
+            <span class="text-muted">Activas</span>
+            <strong class="d-block fs-2">{{ datos.activas }}</strong>
+          </div>
+        </article>
+      </div>
 
-      <article class="dashboard-card">
-        <span class="dashboard-card__label">Inactivas</span>
-        <strong class="dashboard-card__value">{{ datos.inactivas }}</strong>
-      </article>
+      <div class="col-12 col-md-6 col-lg-4">
+        <article class="card h-100">
+          <div class="card-body">
+            <span class="text-muted">Inactivas</span>
+            <strong class="d-block fs-2">{{ datos.inactivas }}</strong>
+          </div>
+        </article>
+      </div>
     </div>
   }
 </section>
