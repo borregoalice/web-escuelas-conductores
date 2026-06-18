@@ -15,8 +15,11 @@ export class EntidadService {
   private readonly apiUrl = `${environment.apiUrl}/entidades`;
   private readonly authHeader = `Basic ${btoa('user:user123')}`;
 
-  listar(razonSocial = ''): Observable<EntidadHabilitadaDto[]> {
-    let params = new HttpParams();
+  listar(razonSocial = '', page = 0, size = 5): Observable<PageResponseDto<EntidadHabilitadaDto>> {
+    let params = new HttpParams()
+      .set('page', page)
+      .set('size', size)
+      .set('sort', 'razonSocial,asc');
 
     if (razonSocial.trim()) {
       params = params.set('razonSocial', razonSocial.trim());
@@ -29,7 +32,22 @@ export class EntidadService {
         },
         params,
       })
-      .pipe(map((respuesta) => (Array.isArray(respuesta) ? respuesta : respuesta.content)));
+      .pipe(
+        map((respuesta) =>
+          Array.isArray(respuesta)
+            ? {
+                content: respuesta,
+                totalElements: respuesta.length,
+                totalPages: respuesta.length ? 1 : 0,
+                size,
+                number: page,
+                first: true,
+                last: true,
+                empty: respuesta.length === 0,
+              }
+            : respuesta,
+        ),
+      );
   }
 
   obtenerPorId(id: number): Observable<EntidadHabilitadaDto> {

@@ -54,6 +54,29 @@
           </tbody>
         </table>
       </div>
+
+      <div class="entidades__paginacion">
+        <p>Página {{ paginaActual() + 1 }} de {{ totalPaginas() }}</p>
+        <p>Total de registros: {{ totalElementos() }}</p>
+        <div class="entidades__paginacion-botones">
+          <button
+            class="entidades__button entidades__button--secondary"
+            type="button"
+            (click)="paginaAnterior()"
+            [disabled]="paginaActual() === 0"
+          >
+            Anterior
+          </button>
+          <button
+            class="entidades__button entidades__button--secondary"
+            type="button"
+            (click)="paginaSiguiente()"
+            [disabled]="paginaActual() >= totalPaginas() - 1"
+          >
+            Siguiente
+          </button>
+        </div>
+      </div>
     } @else {
       <p class="entidades__status">No hay entidades para mostrar.</p>
     }

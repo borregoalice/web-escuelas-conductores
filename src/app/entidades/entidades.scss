@@ -64,6 +64,13 @@
   color: #243b53;
 }
 
+.entidades__button:disabled {
+  border-color: #bcccdc;
+  background: #f3f6f9;
+  color: #9fb3c8;
+  cursor: not-allowed;
+}
+
 .entidades__table-wrapper {
   overflow-x: auto;
   border: 1px solid #d9e2ec;
@@ -100,6 +107,25 @@
 
 .entidades__table tbody tr:last-child td {
   border-bottom: 0;
+}
+
+.entidades__paginacion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  color: #334e68;
+}
+
+.entidades__paginacion p {
+  margin: 0;
+}
+
+.entidades__paginacion-botones {
+  display: flex;
+  gap: 0.75rem;
 }
 
 .entidades__status,

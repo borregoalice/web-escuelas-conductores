@@ -19,34 +19,63 @@ export class Entidades implements OnInit {
   cargando = signal<boolean>(true);
   error = signal<string>('');
   razonSocialBusqueda = signal<string>('');
+  paginaActual = signal<number>(0);
+  totalPaginas = signal<number>(0);
+  totalElementos = signal<number>(0);
+  tamanioPagina = signal<number>(5);
 
   ngOnInit(): void {
     this.cargarEntidades();
   }
 
-  cargarEntidades(razonSocial = ''): void {
+  cargarEntidades(): void {
     this.cargando.set(true);
     this.error.set('');
 
-    this.entidadService.listar(razonSocial).subscribe({
-      next: (entidades) => {
-        this.entidades.set(entidades);
-        this.error.set('');
-        this.cargando.set(false);
-      },
-      error: () => {
-        this.error.set('No se pudieron cargar las entidades.');
-        this.cargando.set(false);
-      },
-    });
+    this.entidadService
+      .listar(this.razonSocialBusqueda(), this.paginaActual(), this.tamanioPagina())
+      .subscribe({
+        next: (pagina) => {
+          this.entidades.set(pagina.content);
+          this.paginaActual.set(pagina.number);
+          this.totalPaginas.set(pagina.totalPages);
+          this.totalElementos.set(pagina.totalElements);
+          this.error.set('');
+          this.cargando.set(false);
+        },
+        error: () => {
+          this.error.set('No se pudieron cargar las entidades.');
+          this.cargando.set(false);
+        },
+      });
   }
 
   buscar(): void {
-    this.cargarEntidades(this.razonSocialBusqueda());
+    this.paginaActual.set(0);
+    this.cargarEntidades();
   }
 
   limpiar(): void {
     this.razonSocialBusqueda.set('');
+    this.paginaActual.set(0);
+    this.cargarEntidades();
+  }
+
+  paginaAnterior(): void {
+    if (this.paginaActual() === 0) {
+      return;
+    }
+
+    this.paginaActual.update((pagina) => pagina - 1);
+    this.cargarEntidades();
+  }
+
+  paginaSiguiente(): void {
+    if (this.paginaActual() >= this.totalPaginas() - 1) {
+      return;
+    }
+
+    this.paginaActual.update((pagina) => pagina + 1);
     this.cargarEntidades();
   }
 }
