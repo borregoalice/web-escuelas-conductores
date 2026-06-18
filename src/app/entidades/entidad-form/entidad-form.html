@@ -1,0 +1,73 @@
+<section class="entidad-form">
+  <header class="entidad-form__header">
+    <h2>Nueva entidad</h2>
+  </header>
+
+  <form class="entidad-form__form" [formGroup]="formulario" (ngSubmit)="guardar()">
+    <div class="entidad-form__campo">
+      <label for="razonSocial">Razón social</label>
+      <input id="razonSocial" type="text" formControlName="razonSocial" />
+      @if (formulario.controls.razonSocial.touched && formulario.controls.razonSocial.invalid) {
+        <small>La razón social es obligatoria y debe tener entre 3 y 120 caracteres.</small>
+      }
+    </div>
+
+    <div class="entidad-form__campo">
+      <label for="tipo">Tipo</label>
+      <select id="tipo" formControlName="tipo">
+        <option value="">Seleccione</option>
+        <option value="E">Escuela</option>
+        <option value="M">Centro médico</option>
+        <option value="V">Centro de evaluación</option>
+      </select>
+      @if (formulario.controls.tipo.touched && formulario.controls.tipo.invalid) {
+        <small>El tipo es obligatorio.</small>
+      }
+    </div>
+
+    <div class="entidad-form__campo">
+      <label for="estado">Estado</label>
+      <select id="estado" formControlName="estado">
+        <option value="">Seleccione</option>
+        <option value="A">Activa</option>
+        <option value="I">Inactiva</option>
+      </select>
+      @if (formulario.controls.estado.touched && formulario.controls.estado.invalid) {
+        <small>El estado es obligatorio.</small>
+      }
+    </div>
+
+    <div class="entidad-form__campo">
+      <label for="direccion">Dirección</label>
+      <input id="direccion" type="text" formControlName="direccion" />
+    </div>
+
+    <div class="entidad-form__campo">
+      <label for="telefono">Teléfono</label>
+      <input id="telefono" type="text" formControlName="telefono" />
+    </div>
+
+    <div class="entidad-form__campo">
+      <label for="correo">Correo</label>
+      <input id="correo" type="email" formControlName="correo" />
+      @if (formulario.controls.correo.touched && formulario.controls.correo.invalid) {
+        <small>Ingrese un correo válido.</small>
+      }
+    </div>
+
+    <div class="entidad-form__campo">
+      <label for="codigoUbigeo">Código ubigeo</label>
+      <input id="codigoUbigeo" type="text" formControlName="codigoUbigeo" />
+      @if (formulario.controls.codigoUbigeo.touched && formulario.controls.codigoUbigeo.invalid) {
+        <small>El código ubigeo es obligatorio.</small>
+      }
+    </div>
+
+    <div class="entidad-form__acciones">
+      <button class="entidad-form__button" type="submit">Guardar</button>
+      <button class="entidad-form__button entidad-form__button--secondary" type="button" (click)="cancelar()">
+        Cancelar
+      </button>
+    </div>
+  </form>
+</section>

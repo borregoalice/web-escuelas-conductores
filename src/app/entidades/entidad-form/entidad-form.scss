@@ -1,0 +1,80 @@
+:host {
+  display: block;
+}
+
+.entidad-form {
+  padding: 1.5rem;
+}
+
+.entidad-form__header {
+  margin-bottom: 1.25rem;
+}
+
+.entidad-form__header h2 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.entidad-form__form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  max-width: 900px;
+}
+
+.entidad-form__campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.entidad-form__campo label {
+  color: #334e68;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.entidad-form__campo input,
+.entidad-form__campo select {
+  padding: 0.7rem 0.85rem;
+  border: 1px solid #bcccdc;
+  border-radius: 8px;
+  color: #243b53;
+  font: inherit;
+}
+
+.entidad-form__campo input:focus,
+.entidad-form__campo select:focus {
+  outline: 2px solid #9fb3c8;
+  outline-offset: 2px;
+}
+
+.entidad-form__campo small {
+  color: #be123c;
+  font-size: 0.8rem;
+}
+
+.entidad-form__acciones {
+  display: flex;
+  gap: 0.75rem;
+  grid-column: 1 / -1;
+  margin-top: 0.5rem;
+}
+
+.entidad-form__button {
+  padding: 0.7rem 1rem;
+  border: 1px solid #243b53;
+  border-radius: 8px;
+  background: #243b53;
+  color: #ffffff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+}
+
+.entidad-form__button--secondary {
+  background: #ffffff;
+  color: #243b53;
+}

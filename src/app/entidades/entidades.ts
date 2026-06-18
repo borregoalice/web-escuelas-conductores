@@ -1,5 +1,6 @@
 import { FormsModule } from '@angular/forms';
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { EntidadHabilitadaDto } from '../core/models/entidad-habilitada.dto';
 import { EntidadService } from '../core/services/entidad.service';
@@ -14,6 +15,7 @@ import { TipoEntidadPipe } from '../shared/pipes/tipo-entidad.pipe';
 })
 export class Entidades implements OnInit {
   private readonly entidadService = inject(EntidadService);
+  private readonly router = inject(Router);
 
   entidades = signal<EntidadHabilitadaDto[]>([]);
   cargando = signal<boolean>(true);
@@ -99,5 +101,9 @@ export class Entidades implements OnInit {
         this.error.set('No se pudo eliminar la entidad.');
       },
     });
+  }
+
+  nuevaEntidad(): void {
+    this.router.navigate(['/entidades/nuevo']);
   }
 }

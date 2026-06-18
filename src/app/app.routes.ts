@@ -12,6 +12,11 @@ export const routes: Routes = [
       import('./entidades/entidades').then((m) => m.Entidades),
   },
   {
+    path: 'entidades/nuevo',
+    loadComponent: () =>
+      import('./entidades/entidad-form/entidad-form').then((m) => m.EntidadForm),
+  },
+  {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',
