@@ -52,7 +52,11 @@ export class EntidadService {
   }
 
   obtenerPorId(id: number): Observable<EntidadHabilitadaDto> {
-    return this.http.get<EntidadHabilitadaDto>(`${this.apiUrl}/${id}`);
+    return this.http.get<EntidadHabilitadaDto>(`${this.apiUrl}/${id}`, {
+      headers: {
+        Authorization: this.authHeader,
+      },
+    });
   }
 
   crear(entidad: EntidadHabilitadaDto): Observable<EntidadHabilitadaDto> {
@@ -64,7 +68,11 @@ export class EntidadService {
   }
 
   actualizar(id: number, entidad: EntidadHabilitadaDto): Observable<EntidadHabilitadaDto> {
-    return this.http.put<EntidadHabilitadaDto>(`${this.apiUrl}/${id}`, entidad);
+    return this.http.put<EntidadHabilitadaDto>(`${this.apiUrl}/${id}`, entidad, {
+      headers: {
+        Authorization: this.adminAuthHeader,
+      },
+    });
   }
 
   actualizarParcial(id: number, cambios: Partial<EntidadHabilitadaDto>): Observable<EntidadHabilitadaDto> {

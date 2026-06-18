@@ -106,4 +106,13 @@ export class Entidades implements OnInit {
   nuevaEntidad(): void {
     this.router.navigate(['/entidades/nuevo']);
   }
+
+  editar(entidad: EntidadHabilitadaDto): void {
+    if (!entidad.id) {
+      this.error.set('No se pudo identificar la entidad a editar.');
+      return;
+    }
+
+    this.router.navigate(['/entidades', entidad.id, 'editar']);
+  }
 }

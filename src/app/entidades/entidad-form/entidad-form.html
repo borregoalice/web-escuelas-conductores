@@ -1,6 +1,6 @@
 <section class="entidad-form">
   <header class="entidad-form__header">
-    <h2>Nueva entidad</h2>
+    <h2>{{ modoEdicion() ? 'Editar entidad' : 'Nueva entidad' }}</h2>
   </header>
 
   @if (error()) {

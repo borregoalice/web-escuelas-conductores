@@ -53,6 +53,13 @@
                 <td>{{ entidad.ubigeo ?? entidad.codigoUbigeo ?? '-' }}</td>
                 <td>
                   <button
+                    class="entidades__button entidades__button--secondary"
+                    type="button"
+                    (click)="editar(entidad)"
+                  >
+                    Editar
+                  </button>
+                  <button
                     class="entidades__button entidades__button--danger"
                     type="button"
                     (click)="eliminar(entidad)"

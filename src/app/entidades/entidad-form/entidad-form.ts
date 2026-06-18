@@ -1,6 +1,6 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { EntidadHabilitadaDto } from '../../core/models/entidad-habilitada.dto';
 import { UbigeoDto } from '../../core/models/ubigeo.dto';
@@ -14,14 +14,17 @@ import { UbigeoService } from '../../core/services/ubigeo.service';
   templateUrl: './entidad-form.html',
   styleUrl: './entidad-form.scss',
 })
-export class EntidadForm {
+export class EntidadForm implements OnInit {
   private readonly fb = inject(FormBuilder);
+  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly entidadService = inject(EntidadService);
   private readonly ubigeoService = inject(UbigeoService);
 
   error = signal<string>('');
   ubigeos = signal<UbigeoDto[]>([]);
+  modoEdicion = signal<boolean>(false);
+  entidadId: number | null = null;
 
   formulario = this.fb.group({
     ruc: ['', [Validators.required]],
@@ -37,6 +40,14 @@ export class EntidadForm {
 
   ngOnInit(): void {
     this.cargarUbigeos();
+
+    const id = this.route.snapshot.paramMap.get('id');
+
+    if (id) {
+      this.entidadId = Number(id);
+      this.modoEdicion.set(true);
+      this.cargarEntidad(this.entidadId);
+    }
   }
 
   cargarUbigeos(): void {
@@ -46,6 +57,32 @@ export class EntidadForm {
       },
       error: () => {
         this.error.set('No se pudieron cargar los ubigeos.');
+      },
+    });
+  }
+
+  cargarEntidad(id: number): void {
+    this.entidadService.obtenerPorId(id).subscribe({
+      next: (entidad) => {
+        const entidadConContacto = entidad as EntidadHabilitadaDto & {
+          telefono?: string;
+          correo?: string;
+        };
+
+        this.formulario.patchValue({
+          ruc: entidad.ruc ?? '',
+          razonSocial: entidad.razonSocial ?? '',
+          tipo: entidad.tipo ?? '',
+          estado: entidad.estado ?? '',
+          direccion: entidad.direccion ?? '',
+          telefono: entidadConContacto.telefono ?? '',
+          correo: entidadConContacto.correo ?? '',
+          codigoUbigeo: entidad.ubigeoCodigo ?? entidad.codigoUbigeo ?? '',
+          fechaAutorizacion: entidad.fechaAutorizacion ?? '',
+        });
+      },
+      error: () => {
+        this.error.set('No se pudo cargar la entidad.');
       },
     });
   }
@@ -69,6 +106,20 @@ export class EntidadForm {
     } as EntidadHabilitadaDto;
 
     this.error.set('');
+
+    if (this.entidadId) {
+      this.entidadService.actualizar(this.entidadId, entidad).subscribe({
+        next: () => {
+          alert('Entidad actualizada correctamente');
+          this.router.navigate(['/entidades']);
+        },
+        error: () => {
+          this.error.set('No se pudo actualizar la entidad.');
+        },
+      });
+
+      return;
+    }
 
     this.entidadService.crear(entidad).subscribe({
       next: () => {
