@@ -54,7 +54,7 @@
                 <td>{{ entidad.razonSocial ?? '-' }}</td>
                 <td>{{ entidad.tipo | tipoEntidad }}</td>
                 <td>{{ entidad.estado ?? '-' }}</td>
-                <td>{{ entidad.ubigeo ?? entidad.codigoUbigeo ?? '-' }}</td>
+                <td>{{ entidad.codigoUbigeo ?? entidad.ubigeoCodigo ?? entidad.ubigeo?.codigoUbigeo ?? '-' }}</td>
                 <td>
                   <div class="d-flex gap-2">
                     <button class="btn btn-sm btn-outline-primary" type="button" (click)="editar(entidad)">

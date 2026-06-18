@@ -5,7 +5,7 @@ export interface EntidadHabilitadaDto {
   nombreComercial?: string;
   tipo?: string;
   direccion?: string;
-  ubigeo?: string;
+  ubigeo?: { codigoUbigeo?: string };
   ubigeoCodigo?: string;
   codigoUbigeo?: string;
   estado?: string;
