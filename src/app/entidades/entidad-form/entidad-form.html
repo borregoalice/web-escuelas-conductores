@@ -11,8 +11,11 @@
     <div class="entidad-form__campo">
       <label for="ruc">RUC</label>
       <input id="ruc" type="text" formControlName="ruc" />
-      @if (formulario.controls.ruc.touched && formulario.controls.ruc.invalid) {
+      @if (formulario.controls.ruc.touched && formulario.controls.ruc.hasError('required')) {
         <small>El RUC es obligatorio.</small>
+      }
+      @if (formulario.controls.ruc.touched && formulario.controls.ruc.hasError('rucInvalido')) {
+        <small>El RUC debe tener exactamente 11 dígitos.</small>
       }
     </div>
 

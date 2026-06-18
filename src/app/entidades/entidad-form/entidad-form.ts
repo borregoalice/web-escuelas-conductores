@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { EntidadHabilitadaDto } from '../../core/models/entidad-habilitada.dto';
@@ -27,7 +27,7 @@ export class EntidadForm implements OnInit {
   entidadId: number | null = null;
 
   formulario = this.fb.group({
-    ruc: ['', [Validators.required]],
+    ruc: ['', [Validators.required, this.rucValido]],
     razonSocial: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(120)]],
     tipo: ['', [Validators.required]],
     estado: ['', [Validators.required]],
@@ -48,6 +48,16 @@ export class EntidadForm implements OnInit {
       this.modoEdicion.set(true);
       this.cargarEntidad(this.entidadId);
     }
+  }
+
+  rucValido(control: AbstractControl): ValidationErrors | null {
+    const valor = control.value as string | null;
+
+    if (!valor) {
+      return null;
+    }
+
+    return /^\d{11}$/.test(valor) ? null : { rucInvalido: true };
   }
 
   cargarUbigeos(): void {
@@ -93,7 +103,36 @@ export class EntidadForm implements OnInit {
       return;
     }
 
-    const entidad = {
+    const entidad = this.construirEntidad();
+    const razonSocial = entidad.razonSocial ?? '';
+
+    this.error.set('');
+
+    this.entidadService.listar(razonSocial, 0, 100).subscribe({
+      next: (pagina) => {
+        const razonNormalizada = razonSocial.trim().toLowerCase();
+        const duplicada = pagina.content.some((item) => {
+          const mismaRazon = (item.razonSocial ?? '').trim().toLowerCase() === razonNormalizada;
+          const esOtraEntidad = !this.entidadId || item.id !== this.entidadId;
+
+          return mismaRazon && esOtraEntidad;
+        });
+
+        if (duplicada) {
+          this.error.set('Ya existe una entidad con esa razón social.');
+          return;
+        }
+
+        this.guardarEntidad(entidad);
+      },
+      error: () => {
+        this.error.set('No se pudo validar si la entidad ya existe.');
+      },
+    });
+  }
+
+  construirEntidad(): EntidadHabilitadaDto {
+    return {
       ruc: this.formulario.controls.ruc.value ?? '',
       razonSocial: this.formulario.controls.razonSocial.value ?? '',
       tipo: this.formulario.controls.tipo.value ?? '',
@@ -104,9 +143,9 @@ export class EntidadForm implements OnInit {
       ubigeoCodigo: this.formulario.controls.codigoUbigeo.value ?? '',
       fechaAutorizacion: this.formulario.controls.fechaAutorizacion.value ?? '',
     } as EntidadHabilitadaDto;
+  }
 
-    this.error.set('');
-
+  guardarEntidad(entidad: EntidadHabilitadaDto): void {
     if (this.entidadId) {
       this.entidadService.actualizar(this.entidadId, entidad).subscribe({
         next: () => {
