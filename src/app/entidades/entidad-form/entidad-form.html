@@ -72,7 +72,15 @@
 
     <div class="entidad-form__campo">
       <label for="codigoUbigeo">Código ubigeo</label>
-      <input id="codigoUbigeo" type="text" formControlName="codigoUbigeo" />
+      <select id="codigoUbigeo" formControlName="codigoUbigeo">
+        <option value="">Seleccione</option>
+        @for (ubigeo of ubigeos(); track ubigeo.codigoUbigeo) {
+          <option [value]="ubigeo.codigoUbigeo">
+            {{ ubigeo.codigoUbigeo }} - {{ ubigeo.departamento }} / {{ ubigeo.provincia }} /
+            {{ ubigeo.distrito }}
+          </option>
+        }
+      </select>
       @if (formulario.controls.codigoUbigeo.touched && formulario.controls.codigoUbigeo.invalid) {
         <small>El código ubigeo es obligatorio.</small>
       }

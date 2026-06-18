@@ -1,5 +1,6 @@
 export interface UbigeoDto {
-  codigo: string;
+  codigo?: string;
+  codigoUbigeo: string;
   departamento?: string;
   provincia?: string;
   distrito?: string;

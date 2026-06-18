@@ -3,7 +3,9 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { EntidadHabilitadaDto } from '../../core/models/entidad-habilitada.dto';
+import { UbigeoDto } from '../../core/models/ubigeo.dto';
 import { EntidadService } from '../../core/services/entidad.service';
+import { UbigeoService } from '../../core/services/ubigeo.service';
 
 @Component({
   selector: 'app-entidad-form',
@@ -16,8 +18,10 @@ export class EntidadForm {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly entidadService = inject(EntidadService);
+  private readonly ubigeoService = inject(UbigeoService);
 
   error = signal<string>('');
+  ubigeos = signal<UbigeoDto[]>([]);
 
   formulario = this.fb.group({
     ruc: ['', [Validators.required]],
@@ -30,6 +34,21 @@ export class EntidadForm {
     codigoUbigeo: ['', [Validators.required]],
     fechaAutorizacion: ['', [Validators.required]],
   });
+
+  ngOnInit(): void {
+    this.cargarUbigeos();
+  }
+
+  cargarUbigeos(): void {
+    this.ubigeoService.listar().subscribe({
+      next: (ubigeos) => {
+        this.ubigeos.set(ubigeos);
+      },
+      error: () => {
+        this.error.set('No se pudieron cargar los ubigeos.');
+      },
+    });
+  }
 
   guardar(): void {
     if (this.formulario.invalid) {
