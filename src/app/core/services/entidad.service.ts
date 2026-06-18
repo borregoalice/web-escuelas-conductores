@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -15,12 +15,19 @@ export class EntidadService {
   private readonly apiUrl = `${environment.apiUrl}/entidades`;
   private readonly authHeader = `Basic ${btoa('user:user123')}`;
 
-  listar(): Observable<EntidadHabilitadaDto[]> {
+  listar(razonSocial = ''): Observable<EntidadHabilitadaDto[]> {
+    let params = new HttpParams();
+
+    if (razonSocial.trim()) {
+      params = params.set('razonSocial', razonSocial.trim());
+    }
+
     return this.http
       .get<EntidadHabilitadaDto[] | PageResponseDto<EntidadHabilitadaDto>>(this.apiUrl, {
         headers: {
           Authorization: this.authHeader,
         },
+        params,
       })
       .pipe(map((respuesta) => (Array.isArray(respuesta) ? respuesta : respuesta.content)));
   }

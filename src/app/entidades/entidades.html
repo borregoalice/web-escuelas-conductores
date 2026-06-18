@@ -3,6 +3,23 @@
     <h2>Entidades</h2>
   </header>
 
+  <div class="entidades__buscador">
+    <label class="entidades__label" for="razonSocial">Razón social</label>
+    <input
+      id="razonSocial"
+      class="entidades__input"
+      type="text"
+      [ngModel]="razonSocialBusqueda()"
+      (ngModelChange)="razonSocialBusqueda.set($event)"
+      (keyup.enter)="buscar()"
+      placeholder="Buscar por razón social"
+    />
+    <button class="entidades__button" type="button" (click)="buscar()">Buscar</button>
+    <button class="entidades__button entidades__button--secondary" type="button" (click)="limpiar()">
+      Limpiar
+    </button>
+  </div>
+
   @if (cargando()) {
     <p class="entidades__status">Cargando entidades...</p>
   }
@@ -29,7 +46,7 @@
               <tr>
                 <td>{{ entidad.id ?? '-' }}</td>
                 <td>{{ entidad.razonSocial ?? '-' }}</td>
-                <td>{{ entidad.tipo ?? '-' }}</td>
+                <td>{{ entidad.tipo | tipoEntidad }}</td>
                 <td>{{ entidad.estado ?? '-' }}</td>
                 <td>{{ entidad.ubigeo ?? entidad.codigoUbigeo ?? '-' }}</td>
               </tr>

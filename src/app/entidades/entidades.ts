@@ -1,11 +1,14 @@
+import { FormsModule } from '@angular/forms';
 import { Component, OnInit, inject, signal } from '@angular/core';
 
 import { EntidadHabilitadaDto } from '../core/models/entidad-habilitada.dto';
 import { EntidadService } from '../core/services/entidad.service';
+import { TipoEntidadPipe } from '../shared/pipes/tipo-entidad.pipe';
 
 @Component({
   selector: 'app-entidades',
   standalone: true,
+  imports: [FormsModule, TipoEntidadPipe],
   templateUrl: './entidades.html',
   styleUrl: './entidades.scss',
 })
@@ -15,16 +18,17 @@ export class Entidades implements OnInit {
   entidades = signal<EntidadHabilitadaDto[]>([]);
   cargando = signal<boolean>(true);
   error = signal<string>('');
+  razonSocialBusqueda = signal<string>('');
 
   ngOnInit(): void {
     this.cargarEntidades();
   }
 
-  cargarEntidades(): void {
+  cargarEntidades(razonSocial = ''): void {
     this.cargando.set(true);
     this.error.set('');
 
-    this.entidadService.listar().subscribe({
+    this.entidadService.listar(razonSocial).subscribe({
       next: (entidades) => {
         this.entidades.set(entidades);
         this.error.set('');
@@ -35,5 +39,14 @@ export class Entidades implements OnInit {
         this.cargando.set(false);
       },
     });
+  }
+
+  buscar(): void {
+    this.cargarEntidades(this.razonSocialBusqueda());
+  }
+
+  limpiar(): void {
+    this.razonSocialBusqueda.set('');
+    this.cargarEntidades();
   }
 }
