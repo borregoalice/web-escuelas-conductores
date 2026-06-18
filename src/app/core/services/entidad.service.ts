@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { environment } from '../../../environments/environment';
 import { EntidadHabilitadaDto } from '../models/entidad-habilitada.dto';
 import { PageResponseDto } from '../models/page-response.dto';
 
@@ -11,7 +12,7 @@ import { PageResponseDto } from '../models/page-response.dto';
 })
 export class EntidadService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:8080/api/v1/entidades';
+  private readonly apiUrl = `${environment.apiUrl}/entidades`;
   private readonly authHeader = `Basic ${btoa('user:user123')}`;
 
   listar(): Observable<EntidadHabilitadaDto[]> {
