@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 import { EntidadHabilitadaDto } from '../../core/models/entidad-habilitada.dto';
 import { UbigeoDto } from '../../core/models/ubigeo.dto';
@@ -148,8 +149,12 @@ export class EntidadForm implements OnInit {
   guardarEntidad(entidad: EntidadHabilitadaDto): void {
     if (this.entidadId) {
       this.entidadService.actualizar(this.entidadId, entidad).subscribe({
-        next: () => {
-          alert('Entidad actualizada correctamente');
+        next: async () => {
+          await Swal.fire({
+            icon: 'success',
+            title: 'Actualización exitosa',
+            text: 'Entidad actualizada correctamente',
+          });
           this.router.navigate(['/entidades']);
         },
         error: () => {
@@ -161,8 +166,12 @@ export class EntidadForm implements OnInit {
     }
 
     this.entidadService.crear(entidad).subscribe({
-      next: () => {
-        alert('Entidad registrada correctamente');
+      next: async () => {
+        await Swal.fire({
+          icon: 'success',
+          title: 'Registro exitoso',
+          text: 'Entidad registrada correctamente',
+        });
         this.router.navigate(['/entidades']);
       },
       error: () => {

@@ -1,6 +1,7 @@
 import { FormsModule } from '@angular/forms';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 import { EntidadHabilitadaDto } from '../core/models/entidad-habilitada.dto';
 import { EntidadService } from '../core/services/entidad.service';
@@ -81,20 +82,32 @@ export class Entidades implements OnInit {
     this.cargarEntidades();
   }
 
-  eliminar(entidad: EntidadHabilitadaDto): void {
+  async eliminar(entidad: EntidadHabilitadaDto): Promise<void> {
     if (!entidad.id) {
       this.error.set('No se pudo identificar la entidad a eliminar.');
       return;
     }
 
-    const confirmado = confirm('¿Seguro que deseas eliminar esta entidad?');
+    const resultado = await Swal.fire({
+      icon: 'warning',
+      title: 'Confirmar eliminación',
+      text: '¿Seguro que deseas eliminar esta entidad?',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+    });
 
-    if (!confirmado) {
+    if (!resultado.isConfirmed) {
       return;
     }
 
     this.entidadService.eliminar(entidad.id).subscribe({
-      next: () => {
+      next: async () => {
+        await Swal.fire({
+          icon: 'success',
+          title: 'Entidad eliminada',
+          text: 'La entidad fue eliminada correctamente',
+        });
         this.cargarEntidades();
       },
       error: () => {
