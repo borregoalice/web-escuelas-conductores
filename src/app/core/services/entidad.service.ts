@@ -56,7 +56,11 @@ export class EntidadService {
   }
 
   crear(entidad: EntidadHabilitadaDto): Observable<EntidadHabilitadaDto> {
-    return this.http.post<EntidadHabilitadaDto>(this.apiUrl, entidad);
+    return this.http.post<EntidadHabilitadaDto>(this.apiUrl, entidad, {
+      headers: {
+        Authorization: this.adminAuthHeader,
+      },
+    });
   }
 
   actualizar(id: number, entidad: EntidadHabilitadaDto): Observable<EntidadHabilitadaDto> {

@@ -3,7 +3,19 @@
     <h2>Nueva entidad</h2>
   </header>
 
+  @if (error()) {
+    <p class="entidad-form__error">{{ error() }}</p>
+  }
+
   <form class="entidad-form__form" [formGroup]="formulario" (ngSubmit)="guardar()">
+    <div class="entidad-form__campo">
+      <label for="ruc">RUC</label>
+      <input id="ruc" type="text" formControlName="ruc" />
+      @if (formulario.controls.ruc.touched && formulario.controls.ruc.invalid) {
+        <small>El RUC es obligatorio.</small>
+      }
+    </div>
+
     <div class="entidad-form__campo">
       <label for="razonSocial">Razón social</label>
       <input id="razonSocial" type="text" formControlName="razonSocial" />
@@ -40,6 +52,9 @@
     <div class="entidad-form__campo">
       <label for="direccion">Dirección</label>
       <input id="direccion" type="text" formControlName="direccion" />
+      @if (formulario.controls.direccion.touched && formulario.controls.direccion.invalid) {
+        <small>La dirección es obligatoria.</small>
+      }
     </div>
 
     <div class="entidad-form__campo">
@@ -60,6 +75,14 @@
       <input id="codigoUbigeo" type="text" formControlName="codigoUbigeo" />
       @if (formulario.controls.codigoUbigeo.touched && formulario.controls.codigoUbigeo.invalid) {
         <small>El código ubigeo es obligatorio.</small>
+      }
+    </div>
+
+    <div class="entidad-form__campo">
+      <label for="fechaAutorizacion">Fecha de autorización</label>
+      <input id="fechaAutorizacion" type="date" formControlName="fechaAutorizacion" />
+      @if (formulario.controls.fechaAutorizacion.touched && formulario.controls.fechaAutorizacion.invalid) {
+        <small>La fecha de autorización es obligatoria.</small>
       }
     </div>
 
