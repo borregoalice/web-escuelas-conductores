@@ -14,6 +14,7 @@ export class EntidadService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = `${environment.apiUrl}/entidades`;
   private readonly authHeader = `Basic ${btoa('user:user123')}`;
+  private readonly adminAuthHeader = `Basic ${btoa('admin:admin123')}`;
 
   listar(razonSocial = '', page = 0, size = 5): Observable<PageResponseDto<EntidadHabilitadaDto>> {
     let params = new HttpParams()
@@ -67,6 +68,10 @@ export class EntidadService {
   }
 
   eliminar(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, {
+      headers: {
+        Authorization: this.adminAuthHeader,
+      },
+    });
   }
 }

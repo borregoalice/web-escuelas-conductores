@@ -78,4 +78,26 @@ export class Entidades implements OnInit {
     this.paginaActual.update((pagina) => pagina + 1);
     this.cargarEntidades();
   }
+
+  eliminar(entidad: EntidadHabilitadaDto): void {
+    if (!entidad.id) {
+      this.error.set('No se pudo identificar la entidad a eliminar.');
+      return;
+    }
+
+    const confirmado = confirm('¿Seguro que deseas eliminar esta entidad?');
+
+    if (!confirmado) {
+      return;
+    }
+
+    this.entidadService.eliminar(entidad.id).subscribe({
+      next: () => {
+        this.cargarEntidades();
+      },
+      error: () => {
+        this.error.set('No se pudo eliminar la entidad.');
+      },
+    });
+  }
 }
