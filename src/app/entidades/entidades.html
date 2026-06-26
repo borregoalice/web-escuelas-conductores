@@ -44,6 +44,7 @@
               <th>Tipo</th>
               <th>Estado</th>
               <th>Ubigeo</th>
+              <th>Fecha autorización</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -51,10 +52,11 @@
             @for (entidad of entidades(); track entidad.id) {
               <tr>
                 <td>{{ entidad.id ?? '-' }}</td>
-                <td>{{ entidad.razonSocial ?? '-' }}</td>
+                <td>{{ (entidad.razonSocial | uppercase) ?? '-' }}</td>
                 <td>{{ entidad.tipo | tipoEntidad }}</td>
                 <td>{{ entidad.estado ?? '-' }}</td>
                 <td>{{ entidad.codigoUbigeo ?? entidad.ubigeoCodigo ?? entidad.ubigeo?.codigoUbigeo ?? '-' }}</td>
+                <td>{{ entidad.fechaAutorizacion | date: 'dd/MM/yyyy' }}</td>
                 <td>
                   <div class="d-flex gap-2">
                     <button class="btn btn-sm btn-outline-primary" type="button" (click)="editar(entidad)">

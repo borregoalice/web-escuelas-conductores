@@ -1,6 +1,7 @@
 import { FormsModule } from '@angular/forms';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { DatePipe, UpperCasePipe } from '@angular/common';
 import Swal from 'sweetalert2';
 
 import { EntidadHabilitadaDto } from '../core/models/entidad-habilitada.dto';
@@ -10,7 +11,7 @@ import { TipoEntidadPipe } from '../shared/pipes/tipo-entidad.pipe';
 @Component({
   selector: 'app-entidades',
   standalone: true,
-  imports: [FormsModule, TipoEntidadPipe],
+  imports: [FormsModule, TipoEntidadPipe, DatePipe, UpperCasePipe],
   templateUrl: './entidades.html',
   styleUrl: './entidades.scss',
 })
